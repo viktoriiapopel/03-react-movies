@@ -5,20 +5,61 @@ import { Loader } from "../Loader/Loader";
 import { MovieGrid } from "../MovieGrid/MovieGrid";
 import { MovieModal } from "../MovieModal/MovieModal";
 import { SearchBar } from "../SearchBar/SearchBar";
-import type { Votes, VoteType } from "../../types/votes";
+import { fetchMovies } from "../../services/movieService";
+import type { Movie } from "../../types/movie";
 
-export const App = () => {
+
+
+export default function App() {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
+    
+
+  const openModal = () => setIsModalOpen(true);
+
+  const closeModal = () => setIsModalOpen(false);
+    
+
+  const handleSubmit = async (formData: FormData) => {
+    const moviename = formData.get("moviename") as string;
+	  
+    if (!moviename.trim()) return;
+     try {
+      setLoading(true);
+      setError(null);
+      const data = await fetchMovies(moviename);
+      setMovies(data.results); 
+    } catch (err) {
+      setError("Failed to fetch movies");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className={css.app}>
-      <SearchBar />
-      <MovieGrid />
-      <Loader />
-      <ErrorMessage />
-      <MovieModal />
+		<div className={css.app}>
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        handleSubmit(formData);
+      }}>
+            <input type="text" name="moviename"  placeholder="Search movies ..."/>
+            <button type="submit">Submit</button>
+          </form>
+      <SearchBar onSubmit={handleSubmit} />
+      loading && <Loader />
+      error && <ErrorMessage message={error} />
+            <MovieGrid movies={movies}/>
+            
+            <MovieModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
-};
+}
+
+
 
 
 

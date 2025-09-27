@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+
 
 
 export interface Movie {
