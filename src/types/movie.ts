@@ -1,5 +1,5 @@
 
-
+import type { AxiosResponse } from "axios";
 
 export interface Movie {
     id: number;

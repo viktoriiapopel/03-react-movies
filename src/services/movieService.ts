@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
+import axios from "axios";
+import type { AxiosInstance, AxiosResponse, } from "axios";
 import type { Movie } from "../types/movie";
 
 const TMDB_BEARER_TOKEN = import.meta.env.VITE_TMDB_TOKEN;
@@ -9,7 +10,7 @@ if (!TMDB_BEARER_TOKEN) {
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: "https://api.themoviedb.org/3",
-  timeout: 10_000,
+  timeout: 10000,
   headers: {
     Authorization: `Bearer ${TMDB_BEARER_TOKEN}`,
   },

@@ -1,28 +1,37 @@
 
-import css from "./SearchBar.module.css";
+import styles from "./SearchBar.module.css";
 
-export const SearchBar = () => {
+interface Props {
+  onSubmit: (formData: FormData) => void;
+}
+
+export function SearchBar({ onSubmit }: Props) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    onSubmit(formData);
+  };
   return (
-    <header className={css.header}>
- <div className={css.container}>
+    <header className={styles.header}>
+ <div className={styles.container}>
  <a
- className={css.link}
+ className={styles.link}
  href="https://www.themoviedb.org/"
  target="_blank"
  rel="noopener noreferrer"
  >
  Powered by TMDB
  </a>
- <form className={css.form}>
+ <form className={styles.form} onSubmit={handleSubmit}>
  <input
- className={css.input}
+ className={styles.input}
  type="text"
- name="query"
+ name="moviename"
  autoComplete="off"
  placeholder="Search movies..."
  autoFocus
 />
- <button className={css.button} type="submit">
+ <button className={styles.button} type="submit">
  Search
  </button>
  </form>

@@ -1,3 +1,5 @@
+
+import React from "react";
 import { useState } from "react";
 import css from "./App.module.css";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
@@ -18,7 +20,7 @@ export default function App() {
   
     
 
-  const openModal = () => setIsModalOpen(true);
+  // const openModal = () => setIsModalOpen(true);
 
   const closeModal = () => setIsModalOpen(false);
     
@@ -41,17 +43,9 @@ export default function App() {
 
   return (
 		<div className={css.app}>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        handleSubmit(formData);
-      }}>
-            <input type="text" name="moviename"  placeholder="Search movies ..."/>
-            <button type="submit">Submit</button>
-          </form>
       <SearchBar onSubmit={handleSubmit} />
-      loading && <Loader />
-      error && <ErrorMessage message={error} />
+      {loading && <Loader />}
+      {error && <ErrorMessage message={error} />}
             <MovieGrid movies={movies}/>
             
             <MovieModal isOpen={isModalOpen} onClose={closeModal} />

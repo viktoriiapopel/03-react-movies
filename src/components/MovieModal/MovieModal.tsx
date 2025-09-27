@@ -10,7 +10,7 @@ interface ModalProps {
 }
 
 export function MovieModal({ isOpen, onClose, movie }: ModalProps) {
-  if (!isOpen || !movie) return null;
+  
 
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
@@ -18,7 +18,9 @@ export function MovieModal({ isOpen, onClose, movie }: ModalProps) {
     }
   };
 
-  useEffect(() => {
+    useEffect(() => {
+        if (!isOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
@@ -29,7 +31,9 @@ export function MovieModal({ isOpen, onClose, movie }: ModalProps) {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onClose]);
+    }, [isOpen, onClose]);
+    
+    if (isOpen || !movie) return null;
 
     
 
@@ -50,9 +54,10 @@ return createPortal(
         </button>
 
         <img
-          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          src={"https://image.tmdb.org/t/p/original${movie.backdrop_path}"}
           alt={movie.title}
-          className={css.image}
+                className={css.image}
+                loading="lazy"
         />
 
         <div className={css.content}>
