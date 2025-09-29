@@ -3,13 +3,10 @@ import type { Movie } from "../../types/movie";
 
 interface MovieGridProps {
     movies: Movie[];
-    onMovieClick?: (movie: Movie) => void;
+    onSelect: (movie: Movie) => void;
 }
 
-export const MovieGrid = ({ movies, onMovieClick }: MovieGridProps) => {
-      if (!movies.length) {
-    return <p className={css.empty}>No movies found. Try another search.</p>;
-  }
+export default function MovieGrid({ movies, onSelect }: MovieGridProps)  {
    return (
     <ul className={css.grid}>
       {movies.map((movie) => (
@@ -17,12 +14,8 @@ export const MovieGrid = ({ movies, onMovieClick }: MovieGridProps) => {
           <div  className={css.card}
             role="button"
             tabIndex={0}
-            onClick={() => onMovieClick?.(movie)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                onMovieClick?.(movie);
-              }
-            }}>
+            onClick={() => onSelect(movie)}>
+            
             {movie.poster_path ? (
               <img
                 className={css.image}

@@ -4,7 +4,7 @@ interface LoaderMessageProps {
   message?: string;
 }
 
-export const Loader = ({message}:LoaderMessageProps) => {
+ export default function Loader ({message}:LoaderMessageProps)  {
     return (
         <p className={css.text}>{message || "Loading movies, please wait..." }</p>
     );

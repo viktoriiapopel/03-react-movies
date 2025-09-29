@@ -1,15 +1,24 @@
 
 import styles from "./SearchBar.module.css";
+import toast from "react-hot-toast";
 
 interface Props {
   onSubmit: (formData: FormData) => void;
 }
 
-export function SearchBar({ onSubmit }: Props) {
+export default function SearchBar({ onSubmit }: Props) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const query = (formData.get("query") as string | null)?.trim();
+    
+        if (!query) {
+          toast.error("Please enter your search query.");
+          return;
+    }
+    
     onSubmit(formData);
+    e.currentTarget.reset();
   };
   return (
     <header className={styles.header}>
