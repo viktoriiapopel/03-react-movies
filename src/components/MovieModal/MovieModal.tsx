@@ -38,7 +38,7 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
     : movie.poster_path
     ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
-    : null;
+    : "https://placehold.co/500x750?text=No+Image";
     
     
 return createPortal(

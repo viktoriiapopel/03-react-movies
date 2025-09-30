@@ -20,6 +20,7 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
     }
     
     onSubmit(query);
+    e.currentTarget.reset();
   };
   return (
     <header className={styles.header}>
