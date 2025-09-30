@@ -16,39 +16,49 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  const handleSubmit = async (formData: FormData) => {
-    const query = formData.get("query") as string;
+  const handleSearch = async (query: string)  => {
+    if (!query.trim()) {
+      toast.error("Please enter your search query.");
+      return;
+    }
 
     try {
       setLoading(true);
       setError(null);
-      setMovies([]); // очистка попередніх результатів
+      setMovies([]); 
 
       const data = await fetchMovies(query);
 
-      if (data.results.length === 0) {
+      if (!Array.isArray(data.results) || data.results.length === 0) {
         toast.error("No movies found for your request.");
+        setMovies([]);
+        return;
       }
 
       setMovies(data.results);
     } catch (err) {
-      console.error(err);
-      setError("Failed to fetch movies");
+      console.error("fetchMovies error:", err);
+      setError("There was an error, please try again...");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleSelect = (movie: Movie) => setSelectedMovie(movie);
+  const handleCloseModal = () => setSelectedMovie(null);
+
   return (
     <div className={css.app}>
-      <SearchBar onSubmit={handleSubmit} />
+      <SearchBar onSubmit={handleSearch} />
+       <Toaster position="top-right" />
       {loading && <Loader />}
       {error && <ErrorMessage message={error} />}
       {!loading && !error && movies.length > 0 && (
-        <MovieGrid movies={movies} onSelect={setSelectedMovie} />
+        <MovieGrid movies={movies} onSelect={handleSelect} />
       )}
-      <MovieModal movie={selectedMovie} onClose={() => setSelectedMovie(null)} />
-      <Toaster position="top-right" />
+        {selectedMovie && (
+        <MovieModal movie={selectedMovie} onClose={handleCloseModal} />
+      )}
     </div>
   );
 }
