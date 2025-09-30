@@ -35,7 +35,7 @@ export default function SearchBar({ onSubmit }: Props) {
  <input
  className={styles.input}
  type="text"
- name="moviename"
+ name="query"
  autoComplete="off"
  placeholder="Search movies..."
  autoFocus
