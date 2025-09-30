@@ -83,3 +83,5 @@ export async function fetchMovies(query: string): Promise<TMDBResponse> {
     }
   }
 }
+
+console.log("TMDB Token:", TMDB_BEARER_TOKEN);
